@@ -1,7 +1,7 @@
 import json
 
 from django.http import JsonResponse, HttpRequest, HttpResponse
-from opt_out.public_api.api.models import FurtherDetailsForm
+from opt_out.public_api.api.models import SubmissionDetailsForm
 from opt_out.public_api.api.models import SubmissionForm
 
 
@@ -24,7 +24,7 @@ def submit(request: HttpRequest) -> JsonResponse:
 def submit_further_details(request: HttpRequest) -> HttpResponse:
     data = json.loads(request.body.decode("utf-8"))
 
-    form = FurtherDetailsForm(data)
+    form = SubmissionDetailsForm(data)
     if not form.is_valid():
         return HttpResponse(status=400)
 

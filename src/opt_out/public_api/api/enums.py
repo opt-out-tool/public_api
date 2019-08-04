@@ -1,5 +1,6 @@
 from enum import Enum
 
-class Identify(Enum):
+
+class IdentifyAs(Enum):
     female = "female"
     transgender = "transgender female"

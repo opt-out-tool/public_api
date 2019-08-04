@@ -4,7 +4,7 @@ from django.core.validators import URLValidator
 from django.db import models
 from django.forms.models import ModelForm
 
-from src.opt_out.public_api.api.enums import Identify
+from src.opt_out.public_api.api.enums import IdentifyAs
 
 
 class Submission(models.Model):
@@ -12,6 +12,7 @@ class Submission(models.Model):
     urls = ArrayField(models.CharField(max_length=256))
     self_submission = models.BooleanField()
     is_part_of_larger_attack = models.BooleanField()
+
 
 class SubmissionForm(ModelForm):
     class Meta:
@@ -49,12 +50,14 @@ class SubmissionForm(ModelForm):
 
         return clean_is_part_of_larger_attack
 
-class FurtherDetails(models.Model):
-    identify = models.CharField(max_length=40, choices=[(tag.value, tag) for tag in Identify])
 
-class FurtherDetailsForm(ModelForm):
+class SubmissionDetails(models.Model):
+    identify = models.CharField(max_length=40, choices=[(tag.value, tag) for tag in IdentifyAs])
+
+
+class SubmissionDetailsForm(ModelForm):
     class Meta:
-        model = FurtherDetails
+        model = SubmissionDetails
         fields = ["identify"]
 
     def clean_identify(self):
