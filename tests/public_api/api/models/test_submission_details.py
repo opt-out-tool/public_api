@@ -13,11 +13,8 @@ def test_details_submission_form_validation_simple(submit_details_request):
 
 @given(identify=st.text(min_size=2, max_size=100,
                         alphabet=st.characters(blacklist_categories=("Cs",),
-                                               blacklist_characters=['\x00'])))
+                                               blacklist_characters=['\x00'])).filter(lambda x: x.strip()))
 def test_details_submission_form_identify(submit_details_request, identify):
-    # in case we get just white characters
-    if not identify.lstrip():
-        return
     submit_details_request['identify'] = identify
     details = SubmissionDetailsForm(submit_details_request)
     assert not details.errors
@@ -56,11 +53,8 @@ def test_details_submission_form_above_max_age(submit_details_request):
 
 @given(job=st.text(min_size=2, max_size=160,
                    alphabet=st.characters(blacklist_categories=("Cs",),
-                                          blacklist_characters=['\x00'])))
+                                          blacklist_characters=['\x00'])).filter(lambda x: x.strip()))
 def test_details_submission_job(submit_details_request, job):
-    # in case we get just white characters
-    if not job.lstrip():
-        return
     submit_details_request['job'] = job
     details = SubmissionDetailsForm(submit_details_request)
     assert not details.errors
@@ -119,8 +113,39 @@ def test_details_submission_reaction_valid(submit_details_request, reaction):
 
 @given(reaction=st.text(min_size=2, max_size=30,
                         alphabet=st.characters(blacklist_categories=("Cs",),
-                                               blacklist_characters=['\x00'])))
+                                               blacklist_characters=['\x00'])).filter(lambda x: x.strip()))
 def test_details_submission_reaction_invalid(submit_details_request, reaction):
     submit_details_request['reaction_type'] = reaction
     details = SubmissionDetailsForm(submit_details_request)
     assert 'reaction_type' in details.errors
+
+
+@given(experienced=st.lists(st.text(min_size=2, max_size=30,
+                                    alphabet=st.characters(blacklist_categories=("Cs",),
+                                                           blacklist_characters=['\x00'])).filter(lambda x: x.strip()),
+                            min_size=1))
+def test_details_submission_experienced_valid(submit_details_request, experienced):
+    submit_details_request['experienced'] = experienced
+    details = SubmissionDetailsForm(submit_details_request)
+    assert not details.errors
+
+
+def test_details_submission_experienced_empty(submit_details_request):
+    submit_details_request['experienced'] = []
+    details = SubmissionDetailsForm(submit_details_request)
+    assert details.errors == {'experienced': ['This field is required.']}
+
+
+@given(feeling=st.text(min_size=2, max_size=100,
+                       alphabet=st.characters(blacklist_categories=("Cs",),
+                                              blacklist_characters=['\x00'])).filter(lambda x: x.strip()))
+def test_details_submission_form_feeling(submit_details_request, feeling):
+    submit_details_request['feeling'] = feeling
+    details = SubmissionDetailsForm(submit_details_request)
+    assert not details.errors
+
+
+def test_details_submission_feeling_above_max_size(submit_details_request):
+    submit_details_request['feeling'] = 'a' * 301
+    details = SubmissionDetailsForm(submit_details_request)
+    assert details.errors == {'feeling': ['Ensure this value has at most 300 characters (it has 301).']}
