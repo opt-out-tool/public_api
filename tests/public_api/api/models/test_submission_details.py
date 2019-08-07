@@ -79,7 +79,7 @@ def test_details_submission_perpetrator_valid(submit_details_request, perpetrato
     assert not details.errors
 
 
-@given(perpetrator=st.text(min_size=2, max_size=30,
+@given(perpetrator=st.text(min_size=2, max_size=40,
                            alphabet=st.characters(blacklist_categories=("Cs",),
                                                   blacklist_characters=['\x00'])))
 def test_details_submission_perpetrator_invalid(submit_details_request, perpetrator):
@@ -95,7 +95,7 @@ def test_details_submission_interaction_valid(submit_details_request, interactio
     assert not details.errors
 
 
-@given(interaction=st.text(min_size=2, max_size=30,
+@given(interaction=st.text(min_size=2, max_size=40,
                            alphabet=st.characters(blacklist_categories=("Cs",),
                                                   blacklist_characters=['\x00'])))
 def test_details_submission_interaction_invalid(submit_details_request, interaction):
@@ -111,7 +111,7 @@ def test_details_submission_reaction_valid(submit_details_request, reaction):
     assert not details.errors
 
 
-@given(reaction=st.text(min_size=2, max_size=30,
+@given(reaction=st.text(min_size=2, max_size=40,
                         alphabet=st.characters(blacklist_categories=("Cs",),
                                                blacklist_characters=['\x00'])).filter(lambda x: x.strip()))
 def test_details_submission_reaction_invalid(submit_details_request, reaction):
@@ -120,7 +120,7 @@ def test_details_submission_reaction_invalid(submit_details_request, reaction):
     assert 'reaction_type' in details.errors
 
 
-@given(experienced=st.lists(st.text(min_size=2, max_size=30,
+@given(experienced=st.lists(st.text(min_size=2, max_size=300,
                                     alphabet=st.characters(blacklist_categories=("Cs",),
                                                            blacklist_characters=['\x00'])).filter(lambda x: x.strip()),
                             min_size=1))
@@ -136,7 +136,7 @@ def test_details_submission_experienced_empty(submit_details_request):
     assert details.errors == {'experienced': ['This field is required.']}
 
 
-@given(feeling=st.text(min_size=2, max_size=100,
+@given(feeling=st.text(min_size=2, max_size=300,
                        alphabet=st.characters(blacklist_categories=("Cs",),
                                               blacklist_characters=['\x00'])).filter(lambda x: x.strip()))
 def test_details_submission_form_feeling(submit_details_request, feeling):
@@ -149,3 +149,4 @@ def test_details_submission_feeling_above_max_size(submit_details_request):
     submit_details_request['feeling'] = 'a' * 301
     details = SubmissionDetailsForm(submit_details_request)
     assert details.errors == {'feeling': ['Ensure this value has at most 300 characters (it has 301).']}
+
