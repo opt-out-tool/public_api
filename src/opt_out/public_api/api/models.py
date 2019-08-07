@@ -4,7 +4,7 @@ from django.core.validators import URLValidator
 from django.db import models
 from django.forms.models import ModelForm
 
-from src.opt_out.public_api.api.enums import IdentifyAs, InteractionType, ReactionType, ExperiencedFeeling, Perpetrator
+from src.opt_out.public_api.api.enums import InteractionType, ReactionType, PerpetratorType
 
 
 class Submission(models.Model):
@@ -52,12 +52,14 @@ class SubmissionForm(ModelForm):
 
 
 class SubmissionDetails(models.Model):
-    identify = models.CharField(max_length=40, choices=[(tag.value, tag) for tag in IdentifyAs])
+    identify = models.CharField(max_length=100)
+    age = models.PositiveSmallIntegerField()
+    job = models.CharField(max_length=160)
+    perpetrator = models.CharField(max_length=40, choices=[(tag.value, tag) for tag in PerpetratorType])
     interaction = models.CharField(max_length=40, choices=[(tag.value, tag) for tag in InteractionType])
     reaction_type = models.CharField(max_length=40, choices=[(tag.value, tag) for tag in ReactionType])
-    experienced_feelings = models.CharField(max_length=40, choices=[(tag.value, tag) for tag in ExperiencedFeeling])
-    perpetrator = models.CharField(max_length=40, choices=[(tag.value, tag) for tag in Perpetrator])
-    age = models.PositiveSmallIntegerField()
+    experienced = ArrayField(models.CharField(max_length=300))
+    feeling = models.CharField(max_length=300)
 
 
 class SubmissionDetailsForm(ModelForm):
