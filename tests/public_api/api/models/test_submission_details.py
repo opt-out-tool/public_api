@@ -150,3 +150,13 @@ def test_details_submission_feeling_above_max_size(submit_details_request):
     details = SubmissionDetailsForm(submit_details_request)
     assert details.errors == {'feeling': ['Ensure this value has at most 300 characters (it has 301).']}
 
+
+@pytest.mark.parametrize('key', ['identify', 'age', 'job', 'perpetrator', 'interaction', 'reaction_type',
+                                 'experienced', 'feeling'])
+def test_missing_form_fields_from_request(key, submit_details_request):
+    del submit_details_request[key]
+    details = SubmissionDetailsForm(submit_details_request)
+    assert details.errors
+
+# TODO implement one-to-many foreign key linking
+## TODO docker container

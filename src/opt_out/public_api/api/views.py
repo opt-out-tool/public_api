@@ -11,9 +11,9 @@ def submit(request: HttpRequest) -> JsonResponse:
     try:
         form = SubmissionForm(data)
         if not form.is_valid():
-            return HttpResponse(status=400)
+            return JsonResponse(form.errors, status=400)
     except AttributeError:
-        return HttpResponse(status=400)
+        return JsonResponse({'form': 'invalid request'}, status=400)
 
     item = form.save(commit=False)
     item.save()
@@ -26,7 +26,7 @@ def submit_further_details(request: HttpRequest) -> HttpResponse:
 
     form = SubmissionDetailsForm(data)
     if not form.is_valid():
-        return HttpResponse(status=400)
+        return JsonResponse(form.errors, status=400)
 
     item = form.save(commit=False)
     item.save()
