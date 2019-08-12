@@ -158,5 +158,10 @@ def test_missing_form_fields_from_request(key, submit_details_request):
     details = SubmissionDetailsForm(submit_details_request)
     assert details.errors
 
-# TODO implement one-to-many foreign key linking
-## TODO docker container
+
+def test_details_submissions_invalid_submission_id(submit_details_request):
+    submit_details_request['submission'] += 100
+    details = SubmissionDetailsForm(submit_details_request)
+    assert details.errors
+
+# TODO docker container

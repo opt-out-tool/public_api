@@ -8,7 +8,6 @@ from src.opt_out.public_api.api.enums import InteractionType, ReactionType, Perp
 
 
 class Submission(models.Model):
-    submission_id = models.AutoField(primary_key=True)
     urls = ArrayField(models.CharField(max_length=256))
     self_submission = models.BooleanField()
     is_part_of_larger_attack = models.BooleanField()
@@ -60,6 +59,8 @@ class SubmissionDetails(models.Model):
     reaction_type = models.CharField(max_length=40, choices=[(tag.value, tag) for tag in ReactionType])
     experienced = ArrayField(models.CharField(max_length=300))
     feeling = models.CharField(max_length=300)
+
+    submission = models.ForeignKey(Submission, on_delete=models.PROTECT)
 
 
 class SubmissionDetailsForm(ModelForm):

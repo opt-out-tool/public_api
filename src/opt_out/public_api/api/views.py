@@ -17,7 +17,7 @@ def submit(request: HttpRequest) -> JsonResponse:
 
     item = form.save(commit=False)
     item.save()
-    response = {"submission_id": item.submission_id}
+    response = {"submission_id": item.id}
     return JsonResponse(response)
 
 
