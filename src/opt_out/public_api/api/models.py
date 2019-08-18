@@ -1,9 +1,9 @@
+from django import forms
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.db import models
 from django.forms.models import ModelForm
-
 from src.opt_out.public_api.api.enums import InteractionType, ReactionType, PerpetratorType
 
 
@@ -78,3 +78,7 @@ class SubmissionDetailsForm(ModelForm):
             raise ValidationError("identify cannot be empty")
 
         return clean_identify
+
+
+class PredictionForm(forms.Form):
+    text = forms.CharField(max_length=400)

@@ -12,6 +12,7 @@ A longer description of your project goes here...
 
 Development
 ===========
+You will need to have `git lfs` installed
 
 Run `poetry install`
 and after that `pre-commit install`

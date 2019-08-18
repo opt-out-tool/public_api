@@ -1,8 +1,11 @@
 import json
 
 from django.http import JsonResponse, HttpRequest, HttpResponse
-from opt_out.public_api.api.models import SubmissionDetailsForm
+from opt_out.public_api.api.machine_learning import TextSentimentPrediction
+from opt_out.public_api.api.models import SubmissionDetailsForm, PredictionForm
 from opt_out.public_api.api.models import SubmissionForm
+
+_prediction_model = None
 
 
 def submit(request: HttpRequest) -> JsonResponse:
@@ -31,6 +34,21 @@ def submit_further_details(request: HttpRequest) -> HttpResponse:
     item = form.save(commit=False)
     item.save()
     return HttpResponse("Thank you for your submission")
+
+
+def predict(request: HttpRequest) -> JsonResponse:
+    data = json.loads(request.body.decode('utf-8'))
+
+    form = PredictionForm(data)
+    if not form.is_valid():
+        return JsonResponse(form.errors, status=400)
+
+    predictor = TextSentimentPrediction()
+    prediction = predictor(form['text'])
+
+    return JsonResponse({
+        'prediction': prediction
+    })
 
 
 def home(request: HttpRequest) -> HttpResponse:
