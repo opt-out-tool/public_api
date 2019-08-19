@@ -2,13 +2,11 @@
 Project main settings file. These settings are common to the project
 if you need to override something do it in local.pt
 """
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
 from pathlib import Path
 
 from decouple import config
-from sys import path
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 
 # PATHS
 # Path containing the django project
@@ -23,7 +21,7 @@ SECRET_KEY = config('SECRET_KEY')
 SITE_ID = 1
 
 # https://docs.djangoproject.com/en/2.0/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 # https://docs.djangoproject.com/en/2.0/ref/settings/#installed-apps
 INSTALLED_APPS = [
