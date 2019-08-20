@@ -47,7 +47,7 @@ def predict(request: HttpRequest) -> JsonResponse:
     prediction = predictor(str(form['text']))
 
     return JsonResponse({
-        'prediction': True if prediction else False
+        'prediction': prediction
     })
 
 

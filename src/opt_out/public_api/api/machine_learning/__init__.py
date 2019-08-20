@@ -48,4 +48,4 @@ class TextSentimentPrediction:
     def __call__(self, text):
         preprocessed_text = self.pre_process_text(text)
 
-        return round(TextSentimentPrediction.model.predict(preprocessed_text).item(0))
+        return TextSentimentPrediction.model.predict(preprocessed_text).item(0)

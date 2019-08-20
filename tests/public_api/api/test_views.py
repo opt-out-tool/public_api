@@ -54,7 +54,7 @@ def test_further_details_save_post_request(client: django.test.Client, db, submi
 
 def test_get_prediction(client: django.test.client):
     prediction_form_data = {
-        'text': 'you are nice person'
+        'text': 'You are a lovely person'
     }
     response = client.post("/prediction", json.dumps(prediction_form_data),
                            content_type="application/json")
