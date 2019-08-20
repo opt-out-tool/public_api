@@ -44,10 +44,10 @@ def predict(request: HttpRequest) -> JsonResponse:
         return JsonResponse(form.errors, status=400)
 
     predictor = TextSentimentPrediction()
-    prediction = predictor(form['text'])
+    prediction = predictor(str(form['text']))
 
     return JsonResponse({
-        'prediction': prediction
+        'prediction': True if prediction else False
     })
 
 

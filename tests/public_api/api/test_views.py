@@ -31,6 +31,7 @@ def test_invalid_request(key, client: django.test.Client, submit_urls_request):
     response = client.post("/submit_urls", json.dumps(submit_urls_request), content_type="application/json")
     assert response.status_code == 400
 
+
 @given(urls=st.lists(st.text()))
 def test_invalid_user_input(urls, client: django.test.Client, submit_urls_request):
     submit_urls_request["urls"] = urls
@@ -49,3 +50,15 @@ def test_invalid_request_type(key, key_type, client: django.test.Client, submit_
 def test_further_details_save_post_request(client: django.test.Client, db, submit_details_request):
     response = client.post("/submit_further_details", json.dumps(submit_details_request), content_type="application/json")
     assert response.status_code == 200
+
+
+def test_get_prediction(client: django.test.client):
+    prediction_form_data = {
+        'text': 'you are nice person'
+    }
+    response = client.post("/prediction", json.dumps(prediction_form_data),
+                           content_type="application/json")
+    assert response.status_code == 200
+    assert response.json() == {
+        'prediction': False
+    }
