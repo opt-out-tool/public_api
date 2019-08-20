@@ -21,7 +21,7 @@ def submit(request: HttpRequest) -> JsonResponse:
     item = form.save(commit=False)
     item.save()
     response = {"submission_id": item.id}
-    return JsonResponse(response)
+    return JsonResponse(response, status=201)
 
 
 def submit_further_details(request: HttpRequest) -> HttpResponse:
@@ -33,7 +33,7 @@ def submit_further_details(request: HttpRequest) -> HttpResponse:
 
     item = form.save(commit=False)
     item.save()
-    return HttpResponse("Thank you for your submission")
+    return HttpResponse("Thank you for your submission", status=201)
 
 
 def predict(request: HttpRequest) -> JsonResponse:
@@ -47,7 +47,7 @@ def predict(request: HttpRequest) -> JsonResponse:
     prediction = predictor(str(form['text']))
 
     return JsonResponse({
-        'prediction': prediction
+        'prediction': prediction >= .5
     })
 
 
