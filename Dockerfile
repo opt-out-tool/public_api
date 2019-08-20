@@ -31,13 +31,13 @@ RUN poetry config settings.virtualenvs.create false
 WORKDIR /usr/src/app
 COPY poetry.lock poetry.lock
 COPY pyproject.toml pyproject.toml
-COPY README.md README.md
+RUN touch README.md
 
 RUN mkdir -p /usr/src/app/src/opt_out && touch /usr/src/app/src/opt_out/__init__.py
 RUN poetry install --no-interaction --no-ansi --no-dev
 
+COPY README.md README.md
 COPY src src
-RUN poetry install --no-interaction --no-ansi --no-dev
 COPY manage.py manage.py
 
 ENTRYPOINT ["tini", "--"]
