@@ -164,5 +164,4 @@ def test_details_submissions_invalid_submission_id(submit_details_request):
     details = SubmissionDetailsForm(submit_details_request)
     assert details.errors
 
-# TODO docker container
 # TODO add IP logging

@@ -1,13 +1,13 @@
 import json
 
 from django.http import JsonResponse, HttpRequest, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from opt_out.public_api.api.machine_learning import TextSentimentPrediction
 from opt_out.public_api.api.models import SubmissionDetailsForm, PredictionForm
 from opt_out.public_api.api.models import SubmissionForm
 
-_prediction_model = None
 
-
+@csrf_exempt
 def submit(request: HttpRequest) -> JsonResponse:
     data = json.loads(request.body.decode("utf-8"))
 
@@ -24,6 +24,7 @@ def submit(request: HttpRequest) -> JsonResponse:
     return JsonResponse(response, status=201)
 
 
+@csrf_exempt
 def submit_further_details(request: HttpRequest) -> HttpResponse:
     data = json.loads(request.body.decode("utf-8"))
 
@@ -36,6 +37,7 @@ def submit_further_details(request: HttpRequest) -> HttpResponse:
     return HttpResponse("Thank you for your submission", status=201)
 
 
+@csrf_exempt
 def predict(request: HttpRequest) -> JsonResponse:
     data = json.loads(request.body.decode('utf-8'))
 
