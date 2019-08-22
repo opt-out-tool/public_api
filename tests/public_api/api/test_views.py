@@ -9,18 +9,18 @@ from hypothesis import given
 
 def test_save_post_request(client: django.test.Client, db, submit_urls_request):
     response = client.post("/submit_urls", json.dumps(submit_urls_request), content_type="application/json")
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert "submission_id" in response.json()
 
 
 def test_save_multiple_consecutive_post_request(client: django.test.Client, db, submit_urls_request):
     response = client.post("/submit_urls", json.dumps(submit_urls_request), content_type="application/json")
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert "submission_id" in response.json()
     submission_id = response.json()["submission_id"]
 
     response = client.post("/submit_urls", json.dumps(submit_urls_request), content_type="application/json")
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert "submission_id" in response.json()
     assert submission_id + 1 == response.json()["submission_id"]
 
@@ -49,7 +49,7 @@ def test_invalid_request_type(key, key_type, client: django.test.Client, submit_
 
 def test_further_details_save_post_request(client: django.test.Client, db, submit_details_request):
     response = client.post("/submit_further_details", json.dumps(submit_details_request), content_type="application/json")
-    assert response.status_code == 200
+    assert response.status_code == 201
 
 
 def test_get_prediction(client: django.test.client):
