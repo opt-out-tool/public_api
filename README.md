@@ -9,7 +9,7 @@ Description
 ===========
 
 You can get latest version of stable docker image using
-`docker pull softerrific/opt_out_api:0.1.0`
+`docker pull softerrific/opt_out_api:0.1.3`
 
 Also If you want to just get entire project running so you can test how it works
 easiest solution would be to just run
