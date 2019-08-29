@@ -73,6 +73,7 @@ PASSWORD=data_base_password
 SECRET_KEY=super_secret_password
 DEBUG=TRUE
 DB_HOST=database_host
+TF_XLA_FLAGS=--tf_xla_cpu_global_jit
 ```
 
 Note
