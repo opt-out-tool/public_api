@@ -35,6 +35,7 @@ RUN touch README.md
 
 RUN mkdir -p /usr/src/app/src/opt_out && touch /usr/src/app/src/opt_out/__init__.py
 RUN poetry install --no-interaction --no-ansi --no-dev
+RUN pip install gunicorn
 
 COPY README.md README.md
 COPY src src
@@ -43,4 +44,4 @@ COPY manage.py manage.py
 
 ENTRYPOINT ["tini", "--"]
 
-CMD python manage.py migrate  &&  python manage.py runserver 0.0.0.0:8000
+CMD python manage.py migrate  &&  gunicorn src/opt_out/public_api/website/wsgi.py
