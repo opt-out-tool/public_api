@@ -15,8 +15,8 @@ django = "^2.2"
 psycopg2 = "^2.8"
 python-decouple = "^3.1"
 keras = "^2.2"
+tensorflow = "^1.14"
 pandas = "^0.25.0"
-sklearn = "^0.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.4"

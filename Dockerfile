@@ -44,4 +44,4 @@ COPY manage.py manage.py
 
 ENTRYPOINT ["tini", "--"]
 
-CMD python manage.py migrate  &&  gunicorn src/opt_out/public_api/website/wsgi.py
+CMD python manage.py migrate  &&  gunicorn opt_out.public_api.website.wsgi:application --workers 2 --bind 0.0.0.0:8000
