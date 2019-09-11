@@ -46,10 +46,11 @@ def predict(request: HttpRequest) -> JsonResponse:
         return JsonResponse(form.errors, status=400)
 
     predictor = TextSentimentPrediction()
-    prediction = predictor(form['text'].value())
-
+    predictions = predictor(form['texts'].data)
+    predictions = predictions >= .5
+    predictions = predictions.flatten().tolist()
     return JsonResponse({
-        'prediction': prediction >= .5
+        'predictions': predictions
     })
 
 

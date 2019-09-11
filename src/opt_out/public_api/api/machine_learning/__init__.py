@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import List
 
 import keras.models
 import pandas as pd
@@ -37,15 +38,15 @@ class TextSentimentPrediction:
             TextSentimentPrediction._corpus = self.create_dictionary(data[text_column_name])
         return TextSentimentPrediction._corpus
 
-    def pre_process_text(self, text):
-        parsed_test = pd.DataFrame({"content": pd.Series(text)})
+    def pre_process_text(self, texts):
+        parsed_test = pd.DataFrame({"content": pd.Series(texts)})
         x_test = parsed_test['content']
 
         test_sequences = self.corpus.texts_to_sequences(x_test.values)
 
         return keras.preprocessing.sequence.pad_sequences(test_sequences, padding='post', maxlen=140)
 
-    def __call__(self, text):
-        preprocessed_text = self.pre_process_text(text)
+    def __call__(self, texts: List[str]):
+        preprocessed_text = self.pre_process_text(texts)
 
-        return TextSentimentPrediction.model.predict(preprocessed_text).item(0)
+        return TextSentimentPrediction.model.predict(preprocessed_text)

@@ -49,14 +49,13 @@ Returns (status 201)
  *** 
  
 /predict 
- - text (max_size=400)  
+ - texts (array of texts, max_size=400)  
  
 Returns (status 200): 
- - prediction (True or False)
+ - predictions (array of booleans)
 
 Development
 ===========
-You will need to have `git lfs` installed
 
 Run `poetry install`
 and after that `pre-commit install`

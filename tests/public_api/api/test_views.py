@@ -40,7 +40,7 @@ def test_invalid_user_input(urls, client: django.test.Client, submit_urls_reques
 
 
 @pytest.mark.parametrize("key", ["urls", "self_submission", "is_part_of_larger_attack"])
-@pytest.mark.parametrize("key_type", [list("3"), {"t":"est"}, 9, "cookies"])
+@pytest.mark.parametrize("key_type", [list("3"), {"t": "est"}, 9, "cookies"])
 def test_invalid_request_type(key, key_type, client: django.test.Client, submit_urls_request):
     submit_urls_request[key] = key_type
     response = client.post("/submit_urls", json.dumps(submit_urls_request), content_type="application/json")
@@ -48,17 +48,19 @@ def test_invalid_request_type(key, key_type, client: django.test.Client, submit_
 
 
 def test_further_details_save_post_request(client: django.test.Client, db, submit_details_request):
-    response = client.post("/submit_further_details", json.dumps(submit_details_request), content_type="application/json")
+    response = client.post("/submit_further_details", json.dumps(submit_details_request),
+                           content_type="application/json")
     assert response.status_code == 201
 
 
 def test_get_prediction(client: django.test.client):
     prediction_form_data = {
-        'text': 'You are a lovely person'
+        'texts': ['You are a lovely person',
+                  'all is good']
     }
     response = client.post("/prediction", json.dumps(prediction_form_data),
                            content_type="application/json")
     assert response.status_code == 200
     assert response.json() == {
-        'prediction': False
+        'predictions': [False, False]
     }

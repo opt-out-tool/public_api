@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
@@ -80,5 +79,11 @@ class SubmissionDetailsForm(ModelForm):
         return clean_identify
 
 
-class PredictionForm(forms.Form):
-    text = forms.CharField(max_length=400)
+class Predictions(models.Model):
+    texts = ArrayField(models.CharField(max_length=400))
+
+
+class PredictionForm(ModelForm):
+    class Meta:
+        model = Predictions
+        fields = '__all__'
