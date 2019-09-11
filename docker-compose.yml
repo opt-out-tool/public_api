@@ -30,18 +30,18 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    website:
-      image: softerrific/opt_out_website:0.1.0
-      ports:
-        - "80:8002"
-      depends_on:
-        - api
-      deploy:
-        restart_policy:
-          condition: on-failure
-          delay: 5s
-          max_attempts: 3
-          window: 120s
+  website:
+    image: softerrific/opt_out_website:0.1.0
+    ports:
+      - "80:8002"
+    depends_on:
+      - api
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
 
 
 volumes:
